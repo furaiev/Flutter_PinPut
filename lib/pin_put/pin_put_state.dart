@@ -169,22 +169,29 @@ class PinPutState extends State<PinPut>
           transitionBuilder: (child, animation) {
             return _getTransition(child, animation);
           },
-          child: index < pin.length
-              ? Text(
-                  widget.obscureText ?? pin[index],
-                  key: ValueKey<String>(index < pin.length ? pin[index] : ''),
-                  style: widget.textStyle,
-                )
-              : widget.withCursor && index == pin.length
-                  ? _buildCursor()
-                  : Text(
-                      widget.preFilledChar ?? '',
-                      key: ValueKey<String>(
-                          index < pin.length ? pin[index] : ''),
-                      style: widget.preFilledCharStyle ?? widget.textStyle,
-                    ),
+          child: _buildFieldContent(index, pin),
         ),
       ),
+    );
+  }
+
+  Widget _buildFieldContent(int index, String pin) {
+    if (index < pin.length) {
+      return Text(
+        widget.obscureText ?? pin[index],
+        key: ValueKey<String>(index < pin.length ? pin[index] : ''),
+        style: widget.textStyle,
+      );
+    }
+
+    if (widget.withCursor && _focusNode.hasFocus && index == pin.length) {
+      return _buildCursor();
+    }
+
+    return Text(
+      widget.preFilledChar ?? '',
+      key: ValueKey<String>(index < pin.length ? pin[index] : ''),
+      style: widget.preFilledCharStyle ?? widget.textStyle,
     );
   }
 
