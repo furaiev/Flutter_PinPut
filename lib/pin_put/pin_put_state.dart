@@ -38,6 +38,7 @@ class PinPutState extends State<PinPut>
     }
 
     WidgetsBinding.instance.addObserver(this);
+    _checkClipboard();
     super.initState();
   }
 
